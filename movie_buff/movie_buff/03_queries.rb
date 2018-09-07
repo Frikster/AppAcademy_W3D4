@@ -3,9 +3,13 @@ def what_was_that_one_with(those_actors)
   # Show each movie's title and id.
   Movie
   .joins(:actors)
-  .group(:id)
-  .having('actors.name IN (?)', those_actors)
+  .where('actors.name IN (?)', those_actors)
   .select(:id, :title)
+  .group(:id)
+  .having('COUNT(actors.id) >= ?', those_actors.length)
+
+  # .group(:id)
+  # .having('actors.name IN (?)', those_actors)
   # .pluck(:id, :title)
 end
 
